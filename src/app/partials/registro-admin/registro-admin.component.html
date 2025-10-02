@@ -4,8 +4,6 @@
             <div class = "row mt-3 mb-3">
                 <div class="form-group col-12">
                     <label class="title-user" form="tipo_usuario"> Ingresa los datos del administrador </label>
-
-
                 </div>
             </div>
 
@@ -42,7 +40,7 @@
             <mat-form-field class="mat-input" appearance="outline" *ngIf="!editar">
                 <mat-label> Contraseña: </mat-label>
                 <input matInput [(ngModel)]="admin.password" type="{{inputType_1}}" placeholder="Escribe contraseña">
-                <matIcon matSuffix class="eye-icon" (click)="showPassword()">{{hide_1 ? 'visibility_off' : 'visibility'}}</matIcon>
+                <mat-icon matSuffix class="eye-icon" (click)="showPassword()">{{hide_1 ? 'visibility_off' : 'visibility'}}</mat-icon>
             </mat-form-field>
             <div *ngIf="errors.password" class="invalid-feedback"> {{errors.password}} </div>
 
@@ -50,7 +48,7 @@
             <mat-form-field class="mat-input" appearance="outline" *ngIf="!editar">
                 <mat-label> Confirmar contraseña: </mat-label>
                 <input matInput [(ngModel)]="admin.confirmar_password" type="{{inputType_2}}" placeholder="Confirma la contraseña">
-                <matIcon matSuffix class="eye-icon" (click)="showPwdConfirmar()">{{hide_2 ? 'visibility_off' : 'visibility'}}</matIcon>
+                <mat-icon matSuffix class="eye-icon" (click)="showPwdConfirmar()">{{hide_2 ? 'visibility_off' : 'visibility'}}</mat-icon>
             </mat-form-field>
             <div *ngIf="errors.password" class="invalid-feedback"> {{errors.password}} </div>
 

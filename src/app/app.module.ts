@@ -20,7 +20,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
 import {MatRadioModule} from '@angular/material/radio';
-
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 //Ngx-cookie-service
 import { CookieService } from 'ngx-cookie-service';
 
@@ -45,7 +46,9 @@ import { CookieService } from 'ngx-cookie-service';
     FormsModule,
     HttpClientModule,
     MatCardModule,
-    MatRadioModule
+    MatRadioModule,
+    MatInputModule,
+    MatFormFieldModule,
   ],
   providers: [
     CookieService

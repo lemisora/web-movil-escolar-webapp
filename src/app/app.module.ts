@@ -24,6 +24,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 //Ngx-cookie-service
 import { CookieService } from 'ngx-cookie-service';
+// Third party
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,7 @@ import { CookieService } from 'ngx-cookie-service';
     DashboardLayoutComponent,
     RegistroAdminComponent,
     RegistroAlumnosComponent,
-    RegistroMaestrosComponent
+    RegistroMaestrosComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,9 +51,11 @@ import { CookieService } from 'ngx-cookie-service';
     MatRadioModule,
     MatInputModule,
     MatFormFieldModule,
+    NgxMaskDirective
   ],
   providers: [
-    CookieService
+    CookieService,
+    provideNgxMask(),
   ],
   bootstrap: [AppComponent]
 })

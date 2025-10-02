@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FacadeService } from 'src/app/services/facade.service';
 import { Location } from '@angular/common';
+import { AdministradoresService } from 'src/app/services/administradores.service';
 
 @Component({
   selector: 'app-registro-admin',
@@ -28,7 +29,7 @@ export class RegistroAdminComponent implements OnInit {
   
   constructor(
     private location: Location,
-    // private administradoresService: AdministradoresService,
+    private administradoresService: AdministradoresService,
     public acivatedRoute: ActivatedRoute,
     private facadeService: FacadeService,
     private router: Router
@@ -62,7 +63,16 @@ export class RegistroAdminComponent implements OnInit {
     this.location.back();
   }
   
-  public registrar() { }
+  public registrar() { 
+    this.errors = {};
+    this.errors = this.administradoresService.validarAdmin(
+      this.admin, this.editar
+    );
+    if(Object.keys(this.errors).length > 0) {
+      return false;
+    }
+    console.log("Pasó la validación")
+  }
   
   public actualizar() { }
   

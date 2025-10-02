@@ -1,18 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-registro-maestros',
-  templateUrl: './registro-maestros.component.html',
-  styleUrls: ['./registro-maestros.component.scss']
+  selector: "app-registro-maestros",
+  templateUrl: "./registro-maestros.component.html",
+  styleUrls: ["./registro-maestros.component.scss"],
+  standalone: false,
 })
 export class RegistroMaestrosComponent implements OnInit {
-
   @Input() rol: string = "";
   @Input() datos_user: any = {};
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

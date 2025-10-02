@@ -45,15 +45,15 @@ mat-form-field {
     text-align: left !important;
 }
 
-/* Sección de botones */
-.section-buttons {
-    width: 90%;
-    margin-left: 5%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 3rem;
+//Para la sección de botones
+.section-buttons{
+  width: 90%;
+  margin-left: 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 3rem;
 }
 
 .btn-primary {
@@ -97,8 +97,11 @@ mat-form-field {
     margin-bottom: 1rem;
 }
 
-/* Ajustes para el formulario en dispositivos móviles */
-/* Título del formulario en móvil */
+/* =========================
+   Ajustes para el formulario en dispositivos móviles
+   ========================= */
+
+/* Título del formulario (en móvil) */
 @media (max-width: 700px) {
     .title-user {
         font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
@@ -137,15 +140,18 @@ mat-form-field {
     }
 }
 
-/* Ajustes para vistas menores */
+/* =========================
+   Ajustes adicionales para la vista móvil (≤ 700px)
+   ========================= */
 @media (max-width: 700px) {
-    .mat-form-field {
-        width: 100% !important;
-        margin-left: 0;
-    }
+
+  .mat-form-field {
+    width: 100% !important;
+    margin-left: 0; /* Elimina el margen */
+  }
+
 }
 
-.invalid-feedback,
-.feedback-error {
-    margin-left: 2.5rem;
+.invalid-feedback, .feedback-error {
+  margin-left: 2.5rem;
 }

@@ -63,10 +63,10 @@
             <!-- CURP -->
             <mat-form-field class="mat-input" appearance="outline">
                 <mat-label> CURP: </mat-label>
-                <input matInput minlength=12 maxlength=13 [(ngModel)]="alumno.rfc" placeholder="Escribe CURP" [disabled]="editar" style="text-transform:uppercase;">
-                <mat-hint align="end"> {{alumno.rfc?.length || 0}} / 13 </mat-hint>
+                <input matInput minlength=18 maxlength=18 [(ngModel)]="alumno.curp" placeholder="Escribe CURP" [disabled]="editar" style="text-transform:uppercase;">
+                <mat-hint align="end"> {{alumno.curp?.length || 0}} / 18 </mat-hint>
             </mat-form-field>
-            <div *ngIf="errors.rfc" class="invalid-feedback"> {{errors.rfc}} </div>
+            <div *ngIf="errors.curp" class="invalid-feedback"> {{errors.curp}} </div>
 
             <!-- RFC -->
             <mat-form-field class="mat-input" appearance="outline">

@@ -55,10 +55,11 @@
             <!-- Fecha de nacimiento -->
             <mat-form-field class="mat-input" appearance="outline">
               <mat-label>Fecha de nacimiento: </mat-label>
-              <input matInput [matDatepicker]="picker">
+              <input matInput [matDatepicker]="picker" [(ngModel)]="maestro.birthdate" name="birthdate">
               <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
+            <div *ngIf="errors.birthdate" class="invalid-feedback"> {{errors.birthdate}} </div>
 
             <!-- Teléfono -->
             <mat-form-field class="mat-input" appearance="outline">
@@ -85,19 +86,19 @@
             <!-- Área de investigación -->
             <mat-form-field class="mat-input" appearance="outline">
                 <mat-label> Área de investigación </mat-label>
-                <mat-select [(ngModel)]="maestro.area_investigacion" name="area_investigacion">
+                <mat-select [(ngModel)]="maestro.area_inv" name="area_inv">
                     <mat-option *ngFor="let area of areas_investigacion" [value]="area">
                         {{area}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <div *ngIf="errors.area_investigacion" class="invalid-feedback"> {{errors.area_investigacion}} </div>
+            <div *ngIf="errors.area_inv" class="invalid-feedback"> {{errors.area_inv}} </div>
 
             <!-- Materias a impartir -->
             <div class="form-group col-12 mt-3">
-                <label class="title-user"> Materias a impartir </label>
+                <label class="title-user">Seleccione las materias a impartir </label>
             </div>
-            
+
             <div class="row">
                 <div class="col-md-6" *ngFor="let materia of materias">
                     <mat-checkbox color="primary" [(ngModel)]="materias_seleccionadas[materia]" name="{{materia}}">
@@ -105,7 +106,7 @@
                     </mat-checkbox>
                 </div>
             </div>
-            <div *ngIf="errors.materias" class="invalid-feedback"> {{errors.materias}} </div>            
+            <div *ngIf="errors.materias" class="invalid-feedback"> {{errors.materias}} </div>
             <div class="section-buttons">
                 <button class="btn btn-danger" (click)="regresar()"> Cancelar </button>
                 <button *ngIf="!editar" class="btn btn-primary" type="submit" (click)="registrar()"> Registrar </button>

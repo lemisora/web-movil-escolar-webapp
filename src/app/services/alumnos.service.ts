@@ -77,6 +77,11 @@ export class AlumnosService {
       }
     }
     
+    // Fecha de nacimiento
+    if (!this.validatorService.required(data["birthdate"])) {
+      error["birthdate"] = this.errorService.required;
+    }
+    
     // Validación del CURP
     if (!this.validatorService.required(data["curp"])) {
       error["curp"] = this.errorService.required;

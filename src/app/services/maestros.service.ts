@@ -1,25 +1,24 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { FacadeService } from './facade.service';
-import { ErrorsService } from './tools/errors.service';
-import { ValidatorService } from './tools/validator.service';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { FacadeService } from "./facade.service";
+import { ErrorsService } from "./tools/errors.service";
+import { ValidatorService } from "./tools/validator.service";
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" }),
 };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class MaestrosService {
-  
   constructor(
     private http: HttpClient,
     private validatorService: ValidatorService,
     private errorService: ErrorsService,
     private facadeService: FacadeService,
-  ) { }
-  
+  ) {}
+
   public esquemaMaestro() {
     return {
       rol: "",
@@ -37,7 +36,7 @@ export class MaestrosService {
       materias: [],
     };
   }
-  
+
   //Validación para el formulario
   public validarMaestro(data: any, editar: boolean) {
     console.log("Validando maestro... ", data);
@@ -100,6 +99,25 @@ export class MaestrosService {
       error["telefono"] = this.errorService.required;
     }
 
+    // Fecha de nacimiento
+    if (!this.validatorService.required(data["birthdate"])) {
+      error["birthdate"] = this.errorService.required;
+    }
+    // Área de investigación
+    if (!this.validatorService.required(data["area_inv"])) {
+      error["area_inv"] = this.errorService.required;
+    }
+    // Cubículo
+    if (!this.validatorService.required(data["cubiculo"])) {
+      error["cubiculo"] = this.errorService.required;
+    }
+
+    //Materias
+    if (!this.validatorService.required(data["materias"])) {
+      error["materias"] = this.errorService.required;
+    } else if (data["materias"].length == 0) {
+      error["materias"] = "Debes seleccionar al menos una materia";
+    }
     //Return arreglo
 
     return error;

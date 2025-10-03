@@ -55,10 +55,11 @@
             <!-- Fecha de nacimiento -->
             <mat-form-field class="mat-input" appearance="outline">
               <mat-label>Fecha de nacimiento: </mat-label>
-              <input matInput [matDatepicker]="picker">
+              <input matInput [matDatepicker]="picker" [(ngModel)]="alumno.birthdate" name="birthdate">
               <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
+            <div *ngIf="errors.birthdate" class="invalid-feedback"> {{errors.birthdate}} </div>
 
             <!-- CURP -->
             <mat-form-field class="mat-input" appearance="outline">

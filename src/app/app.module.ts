@@ -22,10 +22,14 @@ import {MatCardModule} from '@angular/material/card';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
 //Ngx-cookie-service
 import { CookieService } from 'ngx-cookie-service';
 // Third party
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+
 
 @NgModule({
   declarations: [
@@ -51,7 +55,9 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
     MatRadioModule,
     MatInputModule,
     MatFormFieldModule,
-    NgxMaskDirective
+    NgxMaskDirective,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [
     CookieService,

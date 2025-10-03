@@ -26,6 +26,21 @@ export class RegistroMaestrosComponent implements OnInit {
   public inputType_1: string = "password";
   public inputType_2: string = "password";
   
+  
+  // Auxiliares
+  public materias: string[] = [
+    "Aplicaciones web",
+    "Programación I",
+    "Bases de datos",
+    "Tecnologías web",
+    "Minería de datos",
+    "Desarrollo móvil",
+    "Estructuras de datos",
+    "Administración de redes",
+    "Ingeniería de Software",
+    "Administración de S.O."
+  ];
+  
   constructor(
     private location: Location,
     private maestrosService: MaestrosService,

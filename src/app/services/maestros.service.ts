@@ -28,7 +28,7 @@ export class MaestrosService {
       email: "",
       password: "",
       confirmar_password: "",
-      birthdate: "",
+      birthdate: null as Date | null,
       telefono: "",
       rfc: "",
       cubiculo: "",
@@ -87,21 +87,18 @@ export class MaestrosService {
       alert("La longitud de caracteres del RFC es mayor, deben ser 13");
     }
 
-    if (!this.validatorService.required(data["edad"])) {
-      error["edad"] = this.errorService.required;
-    } else if (!this.validatorService.numeric(data["edad"])) {
-      alert("El formato es solo números");
-    } else if (data["edad"] < 18) {
-      error["edad"] = "La edad debe ser mayor o igual a 18 años";
-    }
-
     if (!this.validatorService.required(data["telefono"])) {
       error["telefono"] = this.errorService.required;
     }
 
-    // Fecha de nacimiento
-    if (!this.validatorService.required(data["birthdate"])) {
-      error["birthdate"] = this.errorService.required;
+    // Fecha de nacimiento y edad
+    if (!this.validatorService.required(data['birthdate'])) {
+          error['birthdate'] = this.errorService.required;
+    } else {
+      const edad = this.calcularEdad(new Date(data['birthdate']));
+      if (edad < 18) {
+        error['birthdate'] = 'El maestro debe ser mayor de 18 años';
+      }
     }
     // Área de investigación
     if (!this.validatorService.required(data["area_inv"])) {
@@ -121,5 +118,15 @@ export class MaestrosService {
     //Return arreglo
 
     return error;
+  }
+  
+  private calcularEdad(fecha: Date): number {
+    const hoy = new Date();
+    let edad = hoy.getFullYear() - fecha.getFullYear();
+    const m = hoy.getMonth() - fecha.getMonth();
+    if (m < 0 || (m === 0 && hoy.getDate() < fecha.getDate())) {
+      edad--;
+    }
+    return edad;
   }
 }

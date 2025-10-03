@@ -30,7 +30,7 @@ export class AlumnosService {
       email: "",
       password: "",
       confirmar_password: "",
-      birthdate: "",
+      birthdate: null as Date | null,
       curp: "",
       rfc: "",
       edad: "",
@@ -77,9 +77,14 @@ export class AlumnosService {
       }
     }
     
-    // Fecha de nacimiento
-    if (!this.validatorService.required(data["birthdate"])) {
-      error["birthdate"] = this.errorService.required;
+    // Fecha de nacimiento y edad
+    if (!this.validatorService.required(data['birthdate'])) {
+      error['birthdate'] = this.errorService.required;
+    } else {
+      const edad = this.calcularEdad(new Date(data['birthdate']));
+      if (edad < 18) {
+        error['birthdate'] = 'El maestro debe ser mayor de 18 años';
+      }
     }
     
     // Validación del CURP
@@ -122,5 +127,15 @@ export class AlumnosService {
     //Return arreglo
 
     return error;
+  }
+  
+  private calcularEdad(fecha: Date): number {
+    const hoy = new Date();
+    let edad = hoy.getFullYear() - fecha.getFullYear();
+    const m = hoy.getMonth() - fecha.getMonth();
+    if (m < 0 || (m === 0 && hoy.getDate() < fecha.getDate())) {
+      edad--;
+    }
+    return edad;
   }
 }

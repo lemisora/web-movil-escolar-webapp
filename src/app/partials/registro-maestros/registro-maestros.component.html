@@ -76,9 +76,18 @@
             <div *ngIf="errors.rfc" class="invalid-feedback"> {{errors.rfc}} </div>
 
             <!-- Cubículo -->
-            
+            <mat-form-field class="mat-input" appearance="outline">
+                <mat-label> Cubículo: </mat-label>
+                <input matInput [(ngModel)]="maestro.cubiculo" placeholder="Escribe cubículo: ">
+            </mat-form-field>
+            <div *ngIf="errors.cubiculo" class="invalid-feedback"> {{errors.cubiculo}} </div>
+
             <!-- Área de investigación -->
             <!-- Lista desplegable -->
+            <!-- Dos opciones por ahora:
+                Inteligencia artificial
+                Algoritmos
+            -->
             
             <!-- Materias a impartir -->
             <!-- 10 materias -->
@@ -90,9 +99,9 @@
             Minería de datos
             Desarrollo móvil
             Estructuras de datos
-            maestroistración de redes
+            Administración de redes
             Ingeniería de Software
-            maestroistración de S.O.
+            Administración de S.O.
             -->
             <div class="section-buttons">
                 <button class="btn btn-danger" (click)="regresar()"> Cancelar </button>

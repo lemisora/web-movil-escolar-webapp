@@ -83,7 +83,7 @@ export class AlumnosService {
     } else {
       const edad = this.calcularEdad(new Date(data['birthdate']));
       if (edad < 18) {
-        error['birthdate'] = 'El maestro debe ser mayor de 18 años';
+        error['birthdate'] = 'El alumno debe ser mayor de 18 años';
       }
     }
     

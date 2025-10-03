@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import {MaestrosService} from "src/app/services/maestros.service";
+import { MaestrosService } from "src/app/services/maestros.service";
 import { FacadeService } from "src/app/services/facade.service";
 import { Location } from "@angular/common";
 
@@ -25,8 +25,16 @@ export class RegistroMaestrosComponent implements OnInit {
   public hide_2: boolean = false;
   public inputType_1: string = "password";
   public inputType_2: string = "password";
-  
-  
+
+  public areas_investigacion: string[] = [
+    "Inteligencia Artificial",
+    "Algoritmos",
+    "Tecnologías Web",
+    "Bases de datos",
+  ];
+
+  public materias_seleccionadas: any = {};
+
   // Auxiliares
   public materias: string[] = [
     "Aplicaciones web",
@@ -38,9 +46,9 @@ export class RegistroMaestrosComponent implements OnInit {
     "Estructuras de datos",
     "Administración de redes",
     "Ingeniería de Software",
-    "Administración de S.O."
+    "Administración de S.O.",
   ];
-  
+
   constructor(
     private location: Location,
     private maestrosService: MaestrosService,
@@ -49,8 +57,12 @@ export class RegistroMaestrosComponent implements OnInit {
     private router: Router,
   ) {}
 
-  ngOnInit(): void {}
-  
+  ngOnInit(): void {
+    this.materias.forEach((materia) => {
+      this.materias_seleccionadas[materia] = false;
+    });
+  }
+
   // Funciones para contraseña
   public showPassword() {
     if (this.inputType_1 == "password") {
@@ -77,6 +89,9 @@ export class RegistroMaestrosComponent implements OnInit {
   }
 
   public registrar() {
+    this.maestro.materias = Object.keys(this.materias_seleccionadas).filter(
+      (materia) => this.materias_seleccionadas[materia],
+    );
     this.errors = {};
     this.errors = this.maestrosService.validarMaestro(
       this.maestro,

@@ -59,7 +59,7 @@
               <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
-            
+
             <!-- Teléfono -->
             <mat-form-field class="mat-input" appearance="outline">
                 <mat-label> Teléfono: </mat-label>
@@ -83,26 +83,29 @@
             <div *ngIf="errors.cubiculo" class="invalid-feedback"> {{errors.cubiculo}} </div>
 
             <!-- Área de investigación -->
-            <!-- Lista desplegable -->
-            <!-- Dos opciones por ahora:
-                Inteligencia artificial
-                Algoritmos
-            -->
-            
+            <mat-form-field class="mat-input" appearance="outline">
+                <mat-label> Área de investigación </mat-label>
+                <mat-select [(ngModel)]="maestro.area_investigacion" name="area_investigacion">
+                    <mat-option *ngFor="let area of areas_investigacion" [value]="area">
+                        {{area}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div *ngIf="errors.area_investigacion" class="invalid-feedback"> {{errors.area_investigacion}} </div>
+
             <!-- Materias a impartir -->
-            <!-- 10 materias -->
-            <!-- 
-            Aplicaciones Web
-            Programación I
-            Bases de datos
-            Tecnologías web
-            Minería de datos
-            Desarrollo móvil
-            Estructuras de datos
-            Administración de redes
-            Ingeniería de Software
-            Administración de S.O.
-            -->
+            <div class="form-group col-12 mt-3">
+                <label class="title-user"> Materias a impartir </label>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6" *ngFor="let materia of materias">
+                    <mat-checkbox color="primary" [(ngModel)]="materias_seleccionadas[materia]" name="{{materia}}">
+                        {{materia}}
+                    </mat-checkbox>
+                </div>
+            </div>
+            <div *ngIf="errors.materias" class="invalid-feedback"> {{errors.materias}} </div>            
             <div class="section-buttons">
                 <button class="btn btn-danger" (click)="regresar()"> Cancelar </button>
                 <button *ngIf="!editar" class="btn btn-primary" type="submit" (click)="registrar()"> Registrar </button>

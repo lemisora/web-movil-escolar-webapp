@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { FacadeService } from './facade.service';
 import { ErrorsService } from './tools/errors.service';
 import { ValidatorService } from './tools/validator.service';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" }),
@@ -137,5 +139,11 @@ export class AlumnosService {
       edad--;
     }
     return edad;
+  }
+  
+  // Servicios de peticiones HTTP
+  // Registro de administrador en la base de datos
+  public registrarAlumno(data: any) : Observable<any> { 
+    return this.http.post<any>(`${environment.url_api}/register/`, data, httpOptions);
   }
 }

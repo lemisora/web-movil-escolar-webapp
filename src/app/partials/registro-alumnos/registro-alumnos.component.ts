@@ -29,12 +29,26 @@ export class RegistroAlumnosComponent implements OnInit {
   constructor(
     private location: Location,
     private alumnosService: AlumnosService,
-    public acivatedRoute: ActivatedRoute,
+    public activatedRoute: ActivatedRoute,
     private facadeService: FacadeService,
     private router: Router,
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Validar si cuenta con un token de inicio de sesión
+    if (this.activatedRoute.snapshot.params['id'] != undefined) {
+      this.editar = true;
+      this.idUser = this.activatedRoute.snapshot.params['id'];
+      console.log("ID del usuario", this.idUser);
+      this.alumno = this.datos_user;
+    } else { 
+      this.alumno = this.alumnosService.esquemaAlumno();
+      this.alumno.rol = this.rol;
+      this.token = this.facadeService.getSessionToken();
+    }
+    // Imprimir datos en consola
+    console.log("Datos del usuario", this.alumno);
+  }
 
   // Funciones para contraseña
   public showPassword() {
@@ -79,7 +93,34 @@ export class RegistroAlumnosComponent implements OnInit {
     if (Object.keys(this.errors).length > 0) {
       return false;
     }
-    console.log("Pasó la validación");
+    
+    // Validar que las contraseñas ingresadas coincidan
+    if (this.alumno.password !== this.alumno.confirmar_password) { 
+      alert("Las contraseñas no coinciden");
+      return false;
+    }
+    
+    // Se consume el servicio para el registro de alumnos
+    this.alumnosService.registrarAlumno(this.alumno).subscribe({
+      next: (response: any) => { 
+        alert("Alumno registrado exitosamente");
+        console.log("Alumno registrado",response);
+        //  Si se logró validar se va a lista de alumnos
+        if (this.token != "") {
+          this.router.navigate(["alumno"]);
+        } else { 
+          this.router.navigate(["/"]);
+        }
+        
+      },
+      error: (error: any) => { 
+        if (error.status === 422) {
+          this.errors = error.error.errors;
+        } else { 
+          alert("Error al registrar el alumno");
+        }
+      }
+    });
   }
 
   public actualizar() {}

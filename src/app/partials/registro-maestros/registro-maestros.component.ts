@@ -52,7 +52,7 @@ export class RegistroMaestrosComponent implements OnInit {
   constructor(
     private location: Location,
     private maestrosService: MaestrosService,
-    public acivatedRoute: ActivatedRoute,
+    public activatedRoute: ActivatedRoute,
     private facadeService: FacadeService,
     private router: Router,
   ) {}
@@ -61,6 +61,19 @@ export class RegistroMaestrosComponent implements OnInit {
     this.materias.forEach((materia) => {
       this.materias_seleccionadas[materia] = false;
     });
+    // Validar si cuenta con un token de inicio de sesión
+    if (this.activatedRoute.snapshot.params['id'] != undefined) {
+      this.editar = true;
+      this.idUser = this.activatedRoute.snapshot.params['id'];
+      console.log("ID del usuario", this.idUser);
+      this.maestro = this.datos_user;
+    } else { 
+      this.maestro = this.maestrosService.esquemaMaestro();
+      this.maestro.rol = this.rol;
+      this.token = this.facadeService.getSessionToken();
+    }
+    // Imprimir datos en consola
+    console.log("Datos del usuario", this.maestro);
   }
 
   // Funciones para contraseña
@@ -109,7 +122,34 @@ export class RegistroMaestrosComponent implements OnInit {
     if (Object.keys(this.errors).length > 0) {
       return false;
     }
-    console.log("Pasó la validación");
+    
+    // Validar que las contraseñas ingresadas coincidan
+    if (this.maestro.password !== this.maestro.confirmar_password) { 
+      alert("Las contraseñas no coinciden");
+      return false;
+    }
+    
+    // Se consume el servicio para el registro de maestros
+    this.maestrosService.registrarMaestro(this.maestro).subscribe({
+      next: (response: any) => { 
+        alert("Maestro registrado exitosamente");
+        console.log("Maestro registrado",response);
+        //  Si se logró validar se va a lista de maestros
+        if (this.token != "") {
+          this.router.navigate(["maestro"]);
+        } else { 
+          this.router.navigate(["/"]);
+        }
+        
+      },
+      error: (error: any) => { 
+        if (error.status === 422) {
+          this.errors = error.error.errors;
+        } else { 
+          alert("Error al registrar el maestro");
+        }
+      }
+    });
   }
 
   public actualizar() {}

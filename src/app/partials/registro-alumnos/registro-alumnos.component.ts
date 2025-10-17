@@ -56,6 +56,15 @@ export class RegistroAlumnosComponent implements OnInit {
       this.hide_2 = false;
     }
   }
+  
+  public changeFecha(event: any) { 
+    console.log(event);
+    console.log(event.value);
+    console.log(event.value.toISOString());
+    
+    this.alumno.birthdate = event.value.toISOString().split('T')[0];
+    console.log("Fecha de nacimiento: ",this.alumno.birthdate);
+  }
 
   public regresar() {
     this.location.back();

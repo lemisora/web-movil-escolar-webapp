@@ -84,6 +84,15 @@ export class RegistroMaestrosComponent implements OnInit {
     }
   }
 
+  public changeFecha(event: any) { 
+    console.log(event);
+    console.log(event.value);
+    console.log(event.value.toISOString());
+    
+    this.maestro.birthdate = event.value.toISOString().split('T')[0];
+    console.log("Fecha de nacimiento: ",this.maestro.birthdate);
+  }
+  
   public regresar() {
     this.location.back();
   }

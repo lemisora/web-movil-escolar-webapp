@@ -31,6 +31,10 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { CookieService } from "ngx-cookie-service";
 // Third party
 import { NgxMaskDirective, provideNgxMask } from "ngx-mask";
+import { AdminScreenComponent } from './screens/admin-screen/admin-screen.component';
+import { AlumnosScreenComponent } from './screens/alumnos-screen/alumnos-screen.component';
+import { MaestrosScreenComponent } from './screens/maestros-screen/maestros-screen.component';
+import { HomeScreenComponent } from './screens/home-screen/home-screen.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +46,10 @@ import { NgxMaskDirective, provideNgxMask } from "ngx-mask";
     RegistroAdminComponent,
     RegistroAlumnosComponent,
     RegistroMaestrosComponent,
+    AdminScreenComponent,
+    AlumnosScreenComponent,
+    MaestrosScreenComponent,
+    HomeScreenComponent,
   ],
   imports: [
     BrowserModule,

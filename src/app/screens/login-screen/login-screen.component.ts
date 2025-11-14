@@ -47,7 +47,7 @@ export class LoginScreenComponent implements OnInit {
           case "alumno":
             this.router.navigate(["/alumno"]);break;
           case "maestro":
-            this.router.navigate(["/profesor"]);break;
+            this.router.navigate(["/maestro"]);break;
           default:
             this.router.navigate(["home"]); break;
         }

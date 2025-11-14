@@ -111,6 +111,6 @@ export class AdministradoresService {
   // Servicios de peticiones HTTP
   // Registro de administrador en la base de datos
   public registrarAdmin(data: any) : Observable<any> { 
-    return this.http.post<any>(`${environment.url_api}/register/`, data, httpOptions);
+    return this.http.post<any>(`${environment.url_api}/register/admin/`, data, httpOptions);
   }
 }

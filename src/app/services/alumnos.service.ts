@@ -1,28 +1,26 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { FacadeService } from './facade.service';
-import { ErrorsService } from './tools/errors.service';
-import { ValidatorService } from './tools/validator.service';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { FacadeService } from "./facade.service";
+import { ErrorsService } from "./tools/errors.service";
+import { ValidatorService } from "./tools/validator.service";
+import { Observable } from "rxjs";
+import { environment } from "src/environments/environment";
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" }),
 };
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AlumnosService {
-
   constructor(
     private http: HttpClient,
     private validatorService: ValidatorService,
     private errorService: ErrorsService,
     private facadeService: FacadeService,
-  ) { }
-  
+  ) {}
+
   public esquemaAlumno() {
     return {
       rol: "",
@@ -40,7 +38,7 @@ export class AlumnosService {
       ocupacion: "",
     };
   }
-  
+
   //Validación para el formulario
   public validarAlumno(data: any, editar: boolean) {
     console.log("Validando alumno... ", data);
@@ -78,17 +76,17 @@ export class AlumnosService {
         error["confirmar_password"] = this.errorService.required;
       }
     }
-    
+
     // Fecha de nacimiento y edad
-    if (!this.validatorService.required(data['birthdate'])) {
-      error['birthdate'] = this.errorService.required;
+    if (!this.validatorService.required(data["birthdate"])) {
+      error["birthdate"] = this.errorService.required;
     } else {
-      const edad = this.calcularEdad(new Date(data['birthdate']));
+      const edad = this.calcularEdad(new Date(data["birthdate"]));
       if (edad < 18) {
-        error['birthdate'] = 'El alumno debe ser mayor de 18 años';
+        error["birthdate"] = "El alumno debe ser mayor de 18 años";
       }
     }
-    
+
     // Validación del CURP
     if (!this.validatorService.required(data["curp"])) {
       error["curp"] = this.errorService.required;
@@ -130,7 +128,7 @@ export class AlumnosService {
 
     return error;
   }
-  
+
   private calcularEdad(fecha: Date): number {
     const hoy = new Date();
     let edad = hoy.getFullYear() - fecha.getFullYear();
@@ -140,10 +138,41 @@ export class AlumnosService {
     }
     return edad;
   }
-  
+
   // Servicios de peticiones HTTP
-  // Registro de administrador en la base de datos
-  public registrarAlumno(data: any) : Observable<any> { 
-    return this.http.post<any>(`${environment.url_api}/alumno/`, data, httpOptions);
+  //Servicio para registrar un nuevo alumno
+  public registrarAlumno(data: any): Observable<any> {
+    // Verificamos si existe el token de sesión
+    const token = this.facadeService.getSessionToken();
+    let headers: HttpHeaders;
+    if (token) {
+      headers = new HttpHeaders({
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      });
+    } else {
+      headers = new HttpHeaders({ "Content-Type": "application/json" });
+    }
+    return this.http.post<any>(`${environment.url_api}/alumno/`, data, {
+      headers,
+    });
+  }
+
+  //Servicio para obtener la lista de alumnos
+  public obtenerListaAlumnos(): Observable<any> {
+    // Verificamos si existe el token de sesión
+    const token = this.facadeService.getSessionToken();
+    let headers: HttpHeaders;
+    if (token) {
+      headers = new HttpHeaders({
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      });
+    } else {
+      headers = new HttpHeaders({ "Content-Type": "application/json" });
+    }
+    return this.http.get<any>(`${environment.url_api}/lista-alumnos/`, {
+      headers,
+    });
   }
 }

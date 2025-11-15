@@ -27,6 +27,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatSelectModule } from "@angular/material/select";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 //Ngx-cookie-service
 import { CookieService } from "ngx-cookie-service";
@@ -38,6 +39,7 @@ import { MaestrosScreenComponent } from './screens/maestros-screen/maestros-scre
 import { HomeScreenComponent } from './screens/home-screen/home-screen.component';
 import { NavbarUserComponent } from './partials/navbar-user/navbar-user.component';
 import { SidebarComponent } from './partials/sidebar/sidebar.component';
+import { MatTableModule } from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -75,6 +77,8 @@ import { SidebarComponent } from './partials/sidebar/sidebar.component';
     MatSelectModule,
     MatCheckboxModule,
     MatSidenavModule,
+    MatPaginatorModule,
+    MatTableModule
   ],
   providers: [CookieService, 
     { provide: MAT_DATE_LOCALE, useValue: 'es-MX' },

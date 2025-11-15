@@ -22,15 +22,28 @@ import { MatCardModule } from "@angular/material/card";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
-import { MatNativeDateModule } from "@angular/material/core";
+import { MatNativeDateModule, MAT_DATE_LOCALE } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatSelectModule } from "@angular/material/select";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatTableModule } from "@angular/material/table";
+import { MatSortModule } from "@angular/material/sort";
+
+
+import { MatPaginatorModule, MatPaginatorIntl } from "@angular/material/paginator";
+import { getSpanishPaginatorIntl } from "./shared/spanish-paginator-intl";
 
 //Ngx-cookie-service
 import { CookieService } from "ngx-cookie-service";
 // Third party
 import { NgxMaskDirective, provideNgxMask } from "ngx-mask";
+import { AdminScreenComponent } from './screens/admin-screen/admin-screen.component';
+import { AlumnosScreenComponent } from './screens/alumnos-screen/alumnos-screen.component';
+import { MaestrosScreenComponent } from './screens/maestros-screen/maestros-screen.component';
+import { HomeScreenComponent } from './screens/home-screen/home-screen.component';
+import { NavbarUserComponent } from './partials/navbar-user/navbar-user.component';
+import { SidebarComponent } from './partials/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +55,12 @@ import { NgxMaskDirective, provideNgxMask } from "ngx-mask";
     RegistroAdminComponent,
     RegistroAlumnosComponent,
     RegistroMaestrosComponent,
+    AdminScreenComponent,
+    AlumnosScreenComponent,
+    MaestrosScreenComponent,
+    HomeScreenComponent,
+    NavbarUserComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,8 +80,15 @@ import { NgxMaskDirective, provideNgxMask } from "ngx-mask";
     MatNativeDateModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatSidenavModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule
   ],
-  providers: [CookieService, provideNgxMask()],
+  providers: [CookieService, 
+    { provide: MAT_DATE_LOCALE, useValue: 'es-MX' },
+    { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl()},
+    provideNgxMask()],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

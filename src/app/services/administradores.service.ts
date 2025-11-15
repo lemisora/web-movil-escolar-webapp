@@ -3,6 +3,8 @@ import { Injectable } from "@angular/core";
 import { ValidatorService } from "./tools/validator.service";
 import { ErrorsService } from "./tools/errors.service";
 import { FacadeService } from "./facade.service";
+import { Observable } from "rxjs";
+import { environment } from "src/environments/environment";
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" }),
@@ -104,5 +106,72 @@ export class AdministradoresService {
     //Return arreglo
 
     return error;
+  }
+  
+  // Servicios de peticiones HTTP
+  //Servicio para registrar un nuevo usuario
+  public registrarAdmin(data: any): Observable<any> {
+    // Verificamos si existe el token de sesión
+    const token = this.facadeService.getSessionToken();
+    let headers: HttpHeaders;
+    if (token) {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token });
+    } else {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    }
+    return this.http.post<any>(`${environment.url_api}/admin/`, data, { headers });
+  }
+
+  // Petición para obtener la lista de administradores
+  public obtenerListaAdmins(): Observable<any> {
+    const token = this.facadeService.getSessionToken();
+    let headers: HttpHeaders;
+    if (token) {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token });
+    } else {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      console.log("No se encontró el token del usuario");
+
+    }
+    return this.http.get<any>(`${environment.url_api}/lista-admins/`, { headers });
+  }
+
+  // Petición para obtener un administrador por su ID
+  public obtenerAdminPorID(idAdmin: number): Observable<any> {
+    const token = this.facadeService.getSessionToken();
+    let headers: HttpHeaders;
+    if (token) {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token });
+    } else {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      console.log("No se encontró el token del usuario");
+    }
+    return this.http.get<any>(`${environment.url_api}/admin/?id=${idAdmin}`, { headers });
+  }
+
+  // Petición para actualizar un administrador
+  public actualizarAdmin(data: any): Observable<any> {
+    const token = this.facadeService.getSessionToken();
+    let headers: HttpHeaders;
+    if (token) {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token });
+    } else {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      console.log("No se encontró el token del usuario");
+    }
+    return this.http.put<any>(`${environment.url_api}/admin/`, data, { headers });
+  }
+
+  // Petición para eliminar un administrador
+  public eliminarAdmin(idAdmin: number): Observable<any> {
+    const token = this.facadeService.getSessionToken();
+    let headers: HttpHeaders;
+    if (token) {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token });
+    } else {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      console.log("No se encontró el token del usuario");
+    }
+    return this.http.delete<any>(`${environment.url_api}/admin/?id=${idAdmin}`, { headers });
   }
 }

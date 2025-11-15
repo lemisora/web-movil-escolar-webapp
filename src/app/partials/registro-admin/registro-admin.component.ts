@@ -29,12 +29,26 @@ export class RegistroAdminComponent implements OnInit {
   constructor(
     private location: Location,
     private administradoresService: AdministradoresService,
-    public acivatedRoute: ActivatedRoute,
+    public activatedRoute: ActivatedRoute,
     private facadeService: FacadeService,
     private router: Router,
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Validar si cuenta con un token de inicio de sesión
+    if (this.activatedRoute.snapshot.params['id'] != undefined) {
+      this.editar = true;
+      this.idUser = this.activatedRoute.snapshot.params['id'];
+      console.log("ID del usuario", this.idUser);
+      this.admin = this.datos_user;
+    } else { 
+      this.admin = this.administradoresService.esquemaAdmin();
+      this.admin.rol = this.rol;
+      this.token = this.facadeService.getSessionToken();
+    }
+    // Imprimir datos en consola
+    console.log("Datos del usuario", this.admin);
+  }
 
   // Funciones para contraseña
   public showPassword() {
@@ -70,7 +84,34 @@ export class RegistroAdminComponent implements OnInit {
     if (Object.keys(this.errors).length > 0) {
       return false;
     }
-    console.log("Pasó la validación");
+    
+    // Validar que las contraseñas ingresadas coincidan
+    if (this.admin.password !== this.admin.confirmar_password) { 
+      alert("Las contraseñas no coinciden");
+      return false;
+    }
+    
+    // Se consume el servicio para el registro de administradores
+    this.administradoresService.registrarAdmin(this.admin).subscribe({
+      next: (response: any) => { 
+        alert("Administrador registrado exitosamente");
+        console.log("Admin registrado",response);
+        //  Si se logró validar se va a lista de administradores
+        if (this.token != "") {
+          this.router.navigate(["administrador"]);
+        } else { 
+          this.router.navigate(["/"]);
+        }
+        
+      },
+      error: (error: any) => { 
+        if (error.status === 422) {
+          this.errors = error.error.errors;
+        } else { 
+          alert("Error al registrar el administrador");
+        }
+      }
+    });
   }
 
   public actualizar() {}

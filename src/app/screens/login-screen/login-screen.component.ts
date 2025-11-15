@@ -25,6 +25,7 @@ export class LoginScreenComponent implements OnInit {
   }
 
   public login(){
+    // Valida que los datos ingresados sean correctos
     this.errors = {};
     this.errors = this.facadeService.validarLogin(this.username, this.password);
     if(Object.keys(this.errors).length > 0){
@@ -33,7 +34,31 @@ export class LoginScreenComponent implements OnInit {
 
     console.log("Pasó la validación");
 
-
+    this.load = true;
+    
+    // Lógica para el inicio de sesión (login)
+    this.facadeService.login(this.username, this.password).subscribe(
+      (response : any) => { 
+        this.facadeService.saveUserData(response);
+        const role = response.rol;
+        switch (role) { 
+          case "administrador":
+            this.router.navigate(["/administrador"]);break;
+          case "alumno":
+            this.router.navigate(["/alumno"]);break;
+          case "maestro":
+            this.router.navigate(["/maestro"]);break;
+          default:
+            this.router.navigate(["home"]); break;
+        }
+        this.load = false;
+      },
+      (error: any) => { 
+        this.load = false;
+        alert("Error al iniciar sesión " + error.message);
+        this.errors.general = "Credenciales inválidas, por favor inténtalo nuevamente";
+      },
+    );
   }
 
   public showPassword(){

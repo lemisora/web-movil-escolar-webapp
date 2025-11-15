@@ -3,6 +3,8 @@ import { Injectable } from "@angular/core";
 import { FacadeService } from "./facade.service";
 import { ErrorsService } from "./tools/errors.service";
 import { ValidatorService } from "./tools/validator.service";
+import { Observable } from "rxjs";
+import { environment } from "src/environments/environment";
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" }),
@@ -128,5 +130,32 @@ export class MaestrosService {
       edad--;
     }
     return edad;
+  }
+  
+  // Servicios de peticiones HTTP
+  // Registro de administrador en la base de datos
+  public registrarMaestro (data: any): Observable <any>{
+    // Verificamos si existe el token de sesión
+    const token = this.facadeService.getSessionToken();
+    let headers: HttpHeaders;
+    if (token) {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token });
+    } else {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    }
+    return this.http.post<any>(`${environment.url_api}/profesor/`, data, { headers });
+  }
+  
+  //Servicio para obtener la lista de maestros
+  public obtenerListaMaestros(): Observable<any>{
+    // Verificamos si existe el token de sesión
+    const token = this.facadeService.getSessionToken();
+    let headers: HttpHeaders;
+    if (token) {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token });
+    } else {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    }
+    return this.http.get<any>(`${environment.url_api}/lista-profesores/`, { headers });
   }
 }

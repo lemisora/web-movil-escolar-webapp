@@ -55,7 +55,7 @@
             <!-- Fecha de nacimiento -->
             <mat-form-field class="mat-input" appearance="outline">
               <mat-label>Fecha de nacimiento: </mat-label>
-              <input matInput [matDatepicker]="picker" [(ngModel)]="maestro.birthdate" name="birthdate">
+              <input matInput [matDatepicker]="picker" [(ngModel)]="maestro.birthdate" (focus)="picker.open()" placeholder="Coloca la fecha" (dateChange)="changeFecha($event)" type="string" name="birthdate">
               <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>

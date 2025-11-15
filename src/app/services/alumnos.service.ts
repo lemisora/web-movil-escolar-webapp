@@ -144,6 +144,6 @@ export class AlumnosService {
   // Servicios de peticiones HTTP
   // Registro de administrador en la base de datos
   public registrarAlumno(data: any) : Observable<any> { 
-    return this.http.post<any>(`${environment.url_api}/register/alumno/`, data, httpOptions);
+    return this.http.post<any>(`${environment.url_api}/alumno/`, data, httpOptions);
   }
 }

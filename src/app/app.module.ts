@@ -26,6 +26,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatSelectModule } from "@angular/material/select";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 //Ngx-cookie-service
 import { CookieService } from "ngx-cookie-service";
@@ -35,6 +36,8 @@ import { AdminScreenComponent } from './screens/admin-screen/admin-screen.compon
 import { AlumnosScreenComponent } from './screens/alumnos-screen/alumnos-screen.component';
 import { MaestrosScreenComponent } from './screens/maestros-screen/maestros-screen.component';
 import { HomeScreenComponent } from './screens/home-screen/home-screen.component';
+import { NavbarUserComponent } from './partials/navbar-user/navbar-user.component';
+import { SidebarComponent } from './partials/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +53,8 @@ import { HomeScreenComponent } from './screens/home-screen/home-screen.component
     AlumnosScreenComponent,
     MaestrosScreenComponent,
     HomeScreenComponent,
+    NavbarUserComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,6 +74,7 @@ import { HomeScreenComponent } from './screens/home-screen/home-screen.component
     MatNativeDateModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatSidenavModule,
   ],
   providers: [CookieService, 
     { provide: MAT_DATE_LOCALE, useValue: 'es-MX' },

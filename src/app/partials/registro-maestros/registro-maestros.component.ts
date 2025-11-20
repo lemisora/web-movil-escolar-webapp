@@ -62,12 +62,20 @@ export class RegistroMaestrosComponent implements OnInit {
       this.materias_seleccionadas[materia] = false;
     });
     // Validar si cuenta con un token de inicio de sesión
-    if (this.activatedRoute.snapshot.params['id'] != undefined) {
+    if (this.activatedRoute.snapshot.params["id"] != undefined) {
       this.editar = true;
-      this.idUser = this.activatedRoute.snapshot.params['id'];
+      this.idUser = this.activatedRoute.snapshot.params["id"];
       console.log("ID del usuario", this.idUser);
       this.maestro = this.datos_user;
-    } else { 
+      // Marcar las materias seleccionadas
+      if (this.maestro.materias && this.maestro.materias.length > 0) {
+        this.maestro.materias.forEach((materia_maestro: string) => {
+          if (this.materias_seleccionadas.hasOwnProperty(materia_maestro)) {
+            this.materias_seleccionadas[materia_maestro] = true;
+          }
+        });
+      }
+    } else {
       this.maestro = this.maestrosService.esquemaMaestro();
       this.maestro.rol = this.rol;
       this.token = this.facadeService.getSessionToken();
@@ -97,15 +105,15 @@ export class RegistroMaestrosComponent implements OnInit {
     }
   }
 
-  public changeFecha(event: any) { 
+  public changeFecha(event: any) {
     console.log(event);
     console.log(event.value);
     console.log(event.value.toISOString());
-    
-    this.maestro.birthdate = event.value.toISOString().split('T')[0];
-    console.log("Fecha de nacimiento: ",this.maestro.birthdate);
+
+    this.maestro.birthdate = event.value.toISOString().split("T")[0];
+    console.log("Fecha de nacimiento: ", this.maestro.birthdate);
   }
-  
+
   public regresar() {
     this.location.back();
   }
@@ -122,33 +130,32 @@ export class RegistroMaestrosComponent implements OnInit {
     if (Object.keys(this.errors).length > 0) {
       return false;
     }
-    
+
     // Validar que las contraseñas ingresadas coincidan
-    if (this.maestro.password !== this.maestro.confirmar_password) { 
+    if (this.maestro.password !== this.maestro.confirmar_password) {
       alert("Las contraseñas no coinciden");
       return false;
     }
-    
+
     // Se consume el servicio para el registro de maestros
     this.maestrosService.registrarMaestro(this.maestro).subscribe({
-      next: (response: any) => { 
+      next: (response: any) => {
         alert("Maestro registrado exitosamente");
-        console.log("Maestro registrado",response);
+        console.log("Maestro registrado", response);
         //  Si se logró validar se va a lista de maestros
         if (this.token != "") {
           this.router.navigate(["maestro"]);
-        } else { 
+        } else {
           this.router.navigate(["/"]);
         }
-        
       },
-      error: (error: any) => { 
+      error: (error: any) => {
         if (error.status === 422) {
           this.errors = error.error.errors;
-        } else { 
+        } else {
           alert("Error al registrar el maestro");
         }
-      }
+      },
     });
   }
 

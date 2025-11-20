@@ -54,7 +54,7 @@ export class MaestrosScreenComponent implements OnInit {
     this.rol = this.facadeService.getUserGroup();
 
     this.token = this.facadeService.getSessionToken();
-    console.log('Token: ', this.token);
+    // console.log('Token: ', this.token);
     if (this.token == '') {
       this.router.navigate(['/']);
     }

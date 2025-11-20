@@ -158,4 +158,43 @@ export class MaestrosService {
     }
     return this.http.get<any>(`${environment.url_api}/lista-profesores/`, { headers });
   }
+  
+  // Petición para obtener un maestro por su ID
+  public obtenerMaestroPorID(idMaestro: number): Observable<any> {
+    const token = this.facadeService.getSessionToken();
+    let headers: HttpHeaders;
+    if (token) {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token });
+    } else {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      console.log("No se encontró el token del usuario");
+    }
+    return this.http.get<any>(`${environment.url_api}/profesor/?id=${idMaestro}`, { headers });
+  }
+
+  // Petición para actualizar un maestro
+  public actualizarMaestro(data: any): Observable<any> {
+    const token = this.facadeService.getSessionToken();
+    let headers: HttpHeaders;
+    if (token) {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token });
+    } else {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      console.log("No se encontró el token del usuario");
+    }
+    return this.http.put<any>(`${environment.url_api}/profesor/`, data, { headers });
+  }
+
+  // Petición para eliminar un administrador
+  public eliminarMaestro(idMaestro: number): Observable<any> {
+    const token = this.facadeService.getSessionToken();
+    let headers: HttpHeaders;
+    if (token) {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token });
+    } else {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      console.log("No se encontró el token del usuario");
+    }
+    return this.http.delete<any>(`${environment.url_api}/profesor/?id=${idMaestro}`, { headers });
+  }
 }

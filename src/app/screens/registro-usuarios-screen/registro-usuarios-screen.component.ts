@@ -4,6 +4,8 @@ import { FacadeService } from 'src/app/services/facade.service';
 import { Location } from '@angular/common';
 import { MatRadioChange } from '@angular/material/radio';
 import { AdministradoresService } from 'src/app/services/administradores.service';
+import { AlumnosService } from 'src/app/services/alumnos.service';
+import { MaestrosService } from 'src/app/services/maestros.service';
 
 @Component({
   selector: 'app-registro-usuarios-screen',
@@ -32,7 +34,9 @@ export class RegistroUsuariosScreenComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     private router: Router,
     public facadeService: FacadeService,
-    public administradoresService: AdministradoresService,
+    private administradoresService: AdministradoresService,
+    private alumnosService: AlumnosService,
+    private maestrosService: MaestrosService,
   ) { }
 
   ngOnInit(): void {
@@ -79,10 +83,40 @@ export class RegistroUsuariosScreenComponent implements OnInit {
         break;
       case "maestros": 
         console.log("Obteniendo los datos de un maestro..."); 
-        
+        this.maestrosService.obtenerMaestroPorID(this.idUser).subscribe(
+          (response) => { 
+            this.user = response;
+            console.log("Maestro obtenido: ", this.user);
+            // Asignar datos
+            this.user.first_name = response.user?.first_name || response.first_name;
+            this.user.last_name = response.user?.last_name || response.last_name;
+            this.user.email = response.user?.email || response.email;
+            this.user.tipo_usuario = this.rol;
+            this.isMaestro = true;
+          },(error) => { 
+            console.log("Error al obtener usuario por ID: ", error);
+            alert("No se pudo obtener la información del maestro seleccionado");
+          }
+        );
         break;
       case "alumnos": 
-      console.log("Obteniendo los datos de un alumno..."); break;
+        console.log("Obteniendo los datos de un alumno..."); 
+        this.alumnosService.obtenerAlumnoPorID(this.idUser).subscribe(
+          (response) => { 
+            this.user = response;
+            console.log("Usuario obtenido: ", this.user);
+            // Asignar datos
+            this.user.first_name = response.user?.first_name || response.first_name;
+            this.user.last_name = response.user?.last_name || response.last_name;
+            this.user.email = response.user?.email || response.email;
+            this.user.tipo_usuario = this.rol;
+            this.isAlumno = true;
+          },(error) => { 
+            console.log("Error al obtener usuario por ID: ", error);
+            alert("No se pudo obtener la información del alumno seleccionado");
+          }
+        );
+        break;
       default: 
         "Error, rol desconocido"; break;
     }

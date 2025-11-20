@@ -175,4 +175,43 @@ export class AlumnosService {
       headers,
     });
   }
+  
+  // Petición para obtener un alumno por su ID
+  public obtenerAlumnoPorID(idAlumno: number): Observable<any> {
+    const token = this.facadeService.getSessionToken();
+    let headers: HttpHeaders;
+    if (token) {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token });
+    } else {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      console.log("No se encontró el token del usuario");
+    }
+    return this.http.get<any>(`${environment.url_api}/alumno/?id=${idAlumno}`, { headers });
+  }
+
+  // Petición para actualizar un alumno
+  public actualizarAlumno(data: any): Observable<any> {
+    const token = this.facadeService.getSessionToken();
+    let headers: HttpHeaders;
+    if (token) {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token });
+    } else {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      console.log("No se encontró el token del usuario");
+    }
+    return this.http.put<any>(`${environment.url_api}/alumno/`, data, { headers });
+  }
+
+  // Petición para eliminar un alumno
+  public eliminarAdmin(idAlumno: number): Observable<any> {
+    const token = this.facadeService.getSessionToken();
+    let headers: HttpHeaders;
+    if (token) {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token });
+    } else {
+      headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      console.log("No se encontró el token del usuario");
+    }
+    return this.http.delete<any>(`${environment.url_api}/admin/?id=${idAlumno}`, { headers });
+  }
 }

@@ -54,7 +54,7 @@ export class AlumnosScreenComponent implements OnInit {
     //Validar que haya inicio de sesión
     //Obtengo el token del login
     this.token = this.facadeService.getSessionToken();
-    console.log('Token: ', this.token);
+    // console.log('Token: ', this.token);
     if (this.token == '') {
       this.router.navigate(['/']);
     }

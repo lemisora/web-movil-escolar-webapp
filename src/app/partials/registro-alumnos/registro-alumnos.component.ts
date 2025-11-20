@@ -101,8 +101,8 @@ export class RegistroAlumnosComponent implements OnInit {
     }
     
     // Se consume el servicio para el registro de alumnos
-    this.alumnosService.registrarAlumno(this.alumno).subscribe({
-      next: (response: any) => { 
+    this.alumnosService.registrarAlumno(this.alumno).subscribe(
+      (response: any) => { 
         alert("Alumno registrado exitosamente");
         console.log("Alumno registrado",response);
         //  Si se logró validar se va a lista de alumnos
@@ -112,18 +112,34 @@ export class RegistroAlumnosComponent implements OnInit {
           this.router.navigate(["/"]);
         }
         
-      },
-      error: (error: any) => { 
-        if (error.status === 422) {
-          this.errors = error.error.errors;
-        } else { 
-          alert("Error al registrar el alumno");
-        }
+      },(error: any) => { 
+        alert("Error al registrar el alumno");
+        console.log("Error al registrar el alumno", error);
       }
-    });
+    );
   }
 
-  public actualizar() {}
+  public actualizar() {
+    // Validación de los datos
+    this.errors = {};
+    this.errors = this.alumnosService.validarAlumno(this.alumno, true);
+    if (Object.keys(this.errors).length > 0) {
+      return false;
+    }
+    
+    // Se consume el servicio para el registro de administradores
+    this.alumnosService.actualizarAlumno(this.alumno).subscribe(
+      (response) => { 
+        alert("Alumno actualizado exitosamente");
+        console.log("Alumno actualizado",response);
+        //  Si se logró validar se va a lista de alumnos
+        this.router.navigate(["alumnos"]);
+      }, (error) => { 
+        alert("Error al actualizar el alumno");
+        console.log("Error al actualizar el alumno", error);
+      }
+    );
+  }
 
   public soloLetras(event: KeyboardEvent) {
     const charCode = event.key.charCodeAt(0);

@@ -42,6 +42,7 @@ export class RegistroAdminComponent implements OnInit {
       console.log("ID del usuario", this.idUser);
       this.admin = this.datos_user;
     } else { 
+      // Si no se va a editar se genera un nuevo JSON para registro
       this.admin = this.administradoresService.esquemaAdmin();
       this.admin.rol = this.rol;
       this.token = this.facadeService.getSessionToken();
@@ -92,8 +93,8 @@ export class RegistroAdminComponent implements OnInit {
     }
     
     // Se consume el servicio para el registro de administradores
-    this.administradoresService.registrarAdmin(this.admin).subscribe({
-      next: (response: any) => { 
+    this.administradoresService.registrarAdmin(this.admin).subscribe(
+      (response) => { 
         alert("Administrador registrado exitosamente");
         console.log("Admin registrado",response);
         //  Si se logró validar se va a lista de administradores
@@ -102,19 +103,35 @@ export class RegistroAdminComponent implements OnInit {
         } else { 
           this.router.navigate(["/"]);
         }
-        
       },
-      error: (error: any) => { 
-        if (error.status === 422) {
-          this.errors = error.error.errors;
-        } else { 
-          alert("Error al registrar el administrador");
-        }
+      (error) => { 
+        alert("Error al registrar el administrador");
+        console.log("Error al registrar el administrador", error);
       }
-    });
+    );
   }
 
-  public actualizar() {}
+  public actualizar() {
+    // Validación de los datos
+    this.errors = {};
+    this.errors = this.administradoresService.validarAdmin(this.admin, true);
+    if (Object.keys(this.errors).length > 0) {
+      return false;
+    }
+    
+    // Se consume el servicio para el registro de administradores
+    this.administradoresService.actualizarAdmin(this.admin).subscribe(
+      (response) => { 
+        alert("Administrador actualizado exitosamente");
+        console.log("Admin actualizado",response);
+        //  Si se logró validar se va a lista de administradores
+        this.router.navigate(["administrador"]);
+      }, (error) => { 
+        alert("Error al actualizar el administrador");
+        console.log("Error al actualizar el administrador", error);
+      }
+    );
+  }
 
   public soloLetras(event: KeyboardEvent) {
     const charCode = event.key.charCodeAt(0);

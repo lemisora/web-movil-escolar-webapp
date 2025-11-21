@@ -203,7 +203,7 @@ export class AlumnosService {
   }
 
   // Petición para eliminar un alumno
-  public eliminarAdmin(idAlumno: number): Observable<any> {
+  public eliminarAlumno(idAlumno: number): Observable<any> {
     const token = this.facadeService.getSessionToken();
     let headers: HttpHeaders;
     if (token) {

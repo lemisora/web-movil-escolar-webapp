@@ -29,6 +29,7 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from "@angular/material/sort";
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 import { MatPaginatorModule, MatPaginatorIntl } from "@angular/material/paginator";
@@ -44,6 +45,7 @@ import { MaestrosScreenComponent } from './screens/maestros-screen/maestros-scre
 import { HomeScreenComponent } from './screens/home-screen/home-screen.component';
 import { NavbarUserComponent } from './partials/navbar-user/navbar-user.component';
 import { SidebarComponent } from './partials/sidebar/sidebar.component';
+import { EliminarUserModalComponent } from './modals/eliminar-user-modal/eliminar-user-modal.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +63,7 @@ import { SidebarComponent } from './partials/sidebar/sidebar.component';
     HomeScreenComponent,
     NavbarUserComponent,
     SidebarComponent,
+    EliminarUserModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -83,7 +86,8 @@ import { SidebarComponent } from './partials/sidebar/sidebar.component';
     MatSidenavModule,
     MatPaginatorModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatDialogModule,
   ],
   providers: [CookieService, 
     { provide: MAT_DATE_LOCALE, useValue: 'es-MX' },

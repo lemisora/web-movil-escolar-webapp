@@ -159,7 +159,31 @@ export class RegistroMaestrosComponent implements OnInit {
     });
   }
 
-  public actualizar() {}
+  public actualizar() {
+    this.maestro.materias = Object.keys(this.materias_seleccionadas).filter(
+      (materia) => this.materias_seleccionadas[materia],
+    );
+    // Validación de los datos
+    this.errors = {};
+    this.errors = this.maestrosService.validarMaestro(this.maestro, true);
+    if (Object.keys(this.errors).length > 0) {
+      return false;
+    }
+
+    // Se consume el servicio para el registro de administradores
+    this.maestrosService.actualizarMaestro(this.maestro).subscribe(
+      (response) => {
+        alert("Maestro actualizado exitosamente");
+        console.log("Maestro actualizado", response);
+        //  Si se logró validar se va a lista de maestros
+        this.router.navigate(["maestros"]);
+      },
+      (error) => {
+        alert("Error al actualizar el maestro");
+        console.log("Error al actualizar el maestro", error);
+      },
+    );
+  }
 
   public soloLetras(event: KeyboardEvent) {
     const charCode = event.key.charCodeAt(0);

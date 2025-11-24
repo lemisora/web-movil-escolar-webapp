@@ -185,7 +185,7 @@ export class MaestrosService {
     return this.http.put<any>(`${environment.url_api}/profesor/`, data, { headers });
   }
 
-  // Petición para eliminar un administrador
+  // Petición para eliminar un maestro
   public eliminarMaestro(idMaestro: number): Observable<any> {
     const token = this.facadeService.getSessionToken();
     let headers: HttpHeaders;

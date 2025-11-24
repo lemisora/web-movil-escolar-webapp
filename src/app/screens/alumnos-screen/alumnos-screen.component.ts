@@ -1,10 +1,12 @@
 import { AlumnosService } from './../../services/alumnos.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { FacadeService } from 'src/app/services/facade.service';
 import { MatSort } from '@angular/material/sort';
+import { EliminarUserModalComponent } from 'src/app/modals/eliminar-user-modal/eliminar-user-modal.component';
 
 @Component({
   selector: 'app-alumnos-screen',
@@ -45,7 +47,8 @@ export class AlumnosScreenComponent implements OnInit {
   constructor(
     public facadeService: FacadeService,
     public alumnosService: AlumnosService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -110,7 +113,35 @@ export class AlumnosScreenComponent implements OnInit {
     this.router.navigate(['registro-usuarios/alumnos/' + idUser]);
   }
 
-  public delete(idUser: number) {}
+  public delete(idUser: number) {
+    // Se obtiene el ID del usuario en sesión, es decir, quien intenta eliminar
+    const userIdSession = Number(this.facadeService.getUserId());
+    // -------- Pero el parametro idUser (el de la función) es el ID del alumno que se quiere eliminar ---------
+    // Administrador puede eliminar cualquier alumno
+    // Alumno solo puede eliminar su propio registro
+    if (this.rol === 'administrador' || (this.rol === 'alumno' && userIdSession === idUser)) {
+      //Si es administrador o es alumno, es decir, cumple la condición, se puede eliminar
+      const dialogRef = this.dialog.open(EliminarUserModalComponent,{
+        data: {id: idUser, rol: 'alumno'}, //Se pasan valores a través del componente
+        height: '288px',
+        width: '328px',
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if(result.isDelete){
+          console.log("Alumno eliminado");
+          alert("Alumno eliminado correctamente.");
+          //Recargar página
+          window.location.reload();
+        }else{
+          alert("Alumno no se ha podido eliminar.");
+          console.log("No se eliminó el alumno");
+        }
+      });
+    }else{
+      alert("No tienes permisos para eliminar este alumno.");
+    }
+  }
 }
 export interface DatosUsuario {
   id: number;

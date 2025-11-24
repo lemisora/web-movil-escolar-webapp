@@ -212,6 +212,6 @@ export class AlumnosService {
       headers = new HttpHeaders({ 'Content-Type': 'application/json' });
       console.log("No se encontró el token del usuario");
     }
-    return this.http.delete<any>(`${environment.url_api}/admin/?id=${idAlumno}`, { headers });
+    return this.http.delete<any>(`${environment.url_api}/alumno/?id=${idAlumno}`, { headers });
   }
 }

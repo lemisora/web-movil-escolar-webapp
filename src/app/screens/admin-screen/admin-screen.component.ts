@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AdministradoresService } from 'src/app/services/administradores.service';
-import { FacadeService } from 'src/app/services/facade.service';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { AdministradoresService } from "src/app/services/administradores.service";
+import { FacadeService } from "src/app/services/facade.service";
+import { MatDialog } from "@angular/material/dialog";
+import { EliminarUserModalComponent } from "src/app/modals/eliminar-user-modal/eliminar-user-modal.component";
 
 @Component({
-  selector: 'app-admin-screen',
-  templateUrl: './admin-screen.component.html',
-  styleUrls: ['./admin-screen.component.scss']
+  selector: "app-admin-screen",
+  templateUrl: "./admin-screen.component.html",
+  styleUrls: ["./admin-screen.component.scss"],
 })
 export class AdminScreenComponent implements OnInit {
   // Variables y métodos del componente
@@ -17,7 +19,8 @@ export class AdminScreenComponent implements OnInit {
     public facadeService: FacadeService,
     private administradoresService: AdministradoresService,
     private router: Router,
-  ) { }
+    public dialog: MatDialog,
+  ) {}
 
   ngOnInit(): void {
     // Lógica de inicialización aquí
@@ -33,9 +36,10 @@ export class AdminScreenComponent implements OnInit {
       (response) => {
         this.lista_admins = response;
         console.log("Lista users: ", this.lista_admins);
-      }, (error) => {
+      },
+      (error) => {
         alert("No se pudo obtener la lista de administradores");
-      }
+      },
     );
   }
 
@@ -44,7 +48,23 @@ export class AdminScreenComponent implements OnInit {
   }
 
   public delete(idUser: number) {
+    // --------  El parámetro idUser (el de la función) es el ID del administrador que se quiere eliminar ---------
+    const dialogRef = this.dialog.open(EliminarUserModalComponent, {
+      data: { id: idUser, rol: "administrador" }, //Se pasan valores a través del componente
+      height: "288px",
+      width: "328px",
+    });
 
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result.isDelete) {
+        console.log("Administrador eliminado");
+        alert("Administrador eliminado correctamente.");
+        //Recargar página
+        window.location.reload();
+      } else {
+        alert("Administrador no se ha podido eliminar.");
+        console.log("No se eliminó el administrador");
+      }
+    });
   }
-
 }

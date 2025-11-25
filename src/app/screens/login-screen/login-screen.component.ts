@@ -45,11 +45,13 @@ export class LoginScreenComponent implements OnInit {
           case "administrador":
             this.router.navigate(["/administrador"]);break;
           case "alumno":
-            this.router.navigate(["/alumno"]);break;
+            this.router.navigate(["/alumnos"]);
+            break;
           case "maestro":
-            this.router.navigate(["/maestro"]);break;
+            this.router.navigate(["/maestros"]);break;
           default:
-            this.router.navigate(["home"]); break;
+            this.router.navigate(["home"]); 
+            break;
         }
         this.load = false;
       },

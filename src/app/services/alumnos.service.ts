@@ -142,20 +142,7 @@ export class AlumnosService {
   // Servicios de peticiones HTTP
   //Servicio para registrar un nuevo alumno
   public registrarAlumno(data: any): Observable<any> {
-    // Verificamos si existe el token de sesión
-    const token = this.facadeService.getSessionToken();
-    let headers: HttpHeaders;
-    if (token) {
-      headers = new HttpHeaders({
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      });
-    } else {
-      headers = new HttpHeaders({ "Content-Type": "application/json" });
-    }
-    return this.http.post<any>(`${environment.url_api}/alumno/`, data, {
-      headers,
-    });
+    return this.http.post<any>(`${environment.url_api}/alumno/`, data, httpOptions);
   }
 
   //Servicio para obtener la lista de alumnos

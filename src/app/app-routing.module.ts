@@ -26,8 +26,8 @@ const routes: Routes = [
     children: [
       {path: 'home', component: HomeScreenComponent},
       {path: 'administrador', component: AdminScreenComponent},
-      {path: 'alumno', component: AlumnosScreenComponent},
-      {path: 'maestro', component: MaestrosScreenComponent},
+      {path: 'alumnos', component: AlumnosScreenComponent},
+      {path: 'maestros', component: MaestrosScreenComponent},
     ]
   },
   
